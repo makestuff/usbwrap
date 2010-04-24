@@ -34,7 +34,7 @@ void usbInitialise(void) {
 
 // Find the descriptor of the first occurance of the specified device
 //
-USBStatus usbOpenDevice(unsigned short vid, unsigned short pid, int configuration, int interface, int alternateInterface, UsbDeviceHandle **devHandlePtr) {
+USBStatus usbOpenDevice(uint16 vid, uint16 pid, int configuration, int interface, int alternateInterface, UsbDeviceHandle **devHandlePtr) {
 	struct usb_bus *bus;
 	struct usb_device *thisDevice;
 	UsbDeviceHandle *deviceHandle;

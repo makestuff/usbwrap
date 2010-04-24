@@ -19,17 +19,19 @@ TARGET = libusbwrap.a
 CC_SRCS = $(shell ls *.c)
 CC_OBJS = $(CC_SRCS:%.c=$(OBJDIR)/%.o)
 CC = gcc
-CFLAGS = -O3 -Wall -Wextra -Wstrict-prototypes -Wundef -std=c99 -pedantic-errors
+CFLAGS = -O3 -Wall -Wextra -Wstrict-prototypes -Wundef -std=c99 -pedantic-errors -I../../include
 OBJDIR = .build
 DEPDIR = .deps
 
-all: $(TARGET)
+all: ../../include $(TARGET)
 
 $(TARGET): $(CC_OBJS)
 	$(AR) cr $(TARGET) $(CC_OBJS)
 
 $(OBJDIR)/%.o : %.c
 	$(CC) -c $(CFLAGS) -MMD -MP -MF $(DEPDIR)/$(@F).d -Wa,-adhlns=$(OBJDIR)/$<.lst $< -o $@
+
+-include Makefile.common
 
 clean: FORCE
 	rm -rf $(OBJDIR) $(TARGET) $(DEPDIR) Debug Release *.ncb *.suo *.user

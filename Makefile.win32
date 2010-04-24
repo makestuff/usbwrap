@@ -17,8 +17,10 @@
 LIBUSB_VERSION = 0.1.12.2
 LIBUSB_HOME = ../../3rd/libusb-win32-device-bin-$(LIBUSB_VERSION)
 
-all: $(LIBUSB_HOME)
+all: $(LIBUSB_HOME) ../../include
 	vcbuild /nologo usbwrap.vcproj
+
+-include Makefile.common
 
 $(LIBUSB_HOME):
 	wget 'http://downloads.sourceforge.net/project/libusb-win32/libusb-win32-releases/$(LIBUSB_VERSION)/libusb-win32-device-bin-$(LIBUSB_VERSION).tar.gz'

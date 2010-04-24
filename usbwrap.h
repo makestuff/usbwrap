@@ -17,17 +17,16 @@
 #ifndef LIBUSB_H
 #define LIBUSB_H
 
+#include "types.h"
+
 #ifdef WIN32
-#define _CRT_SECURE_NO_WARNINGS
-#include <string.h>
-#define strcasecmp(x,y) _stricmp(x,y)
+	#define _CRT_SECURE_NO_WARNINGS
+	#include <string.h>
+	#define strcasecmp(x,y) _stricmp(x,y)
 #else
-#include <strings.h>
-#include <sys/types.h>
-#include <linux/limits.h>
-#define TRUE 1
-#define FALSE 0
-#define BOOL unsigned char
+	#include <strings.h>
+	#include <sys/types.h>
+	#include <linux/limits.h>
 #endif
 #include <usb.h>
 #include <stdio.h>
@@ -46,7 +45,7 @@ typedef enum {
 typedef struct usb_dev_handle UsbDeviceHandle;
 
 void usbInitialise(void);
-USBStatus usbOpenDevice(unsigned short vid, unsigned short pid, int configuration, int interface, int alternateInterface, UsbDeviceHandle **devHandlePtr);
+USBStatus usbOpenDevice(uint16 vid, uint16 pid, int configuration, int iface, int alternateInterface, UsbDeviceHandle **devHandlePtr);
 const char *usbStrError(void);
 
 #endif

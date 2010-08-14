@@ -76,10 +76,12 @@ USBStatus usbOpenDevice(uint16 vid, uint16 pid, int configuration, int interface
 				sprintf(errMsg, "usb_claim_interface(): %s", usb_strerror());
 				return USB_CANNOT_CLAIM_INTERFACE;
 			}
-			returnCode = usb_set_altinterface(deviceHandle, alternateInterface);
-			if ( returnCode < 0 ) {
-				sprintf(errMsg, "usb_set_altinterface(): %s", usb_strerror());
-				return USB_CANNOT_SET_ALTINT;
+			if ( alternateInterface ) {
+				returnCode = usb_set_altinterface(deviceHandle, alternateInterface);
+				if ( returnCode < 0 ) {
+					sprintf(errMsg, "usb_set_altinterface(): %s", usb_strerror());
+					return USB_CANNOT_SET_ALTINT;
+				}
 			}
 			return USB_SUCCESS;
 		}

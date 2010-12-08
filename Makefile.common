@@ -1,5 +1,5 @@
 ../../include:
 	wget --no-check-certificate http://github.com/makestuff/include/tarball/master
-	tar xvzf makestuff-include-*.tar.gz
-	rm makestuff-include-*.tar.gz
+	tar xvzf master
+	rm master
 	mv makestuff-include* ../../include

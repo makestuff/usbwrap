@@ -38,7 +38,8 @@ typedef enum {
 	USB_CANNOT_OPEN_DEVICE,
 	USB_CANNOT_SET_CONFIGURATION,
 	USB_CANNOT_CLAIM_INTERFACE,
-	USB_CANNOT_SET_ALTINT
+	USB_CANNOT_SET_ALTINT,
+	USB_GET_DESCRIPTOR
 } USBStatus;
 
 #define usbClose(x) usb_close(x)
@@ -46,6 +47,7 @@ typedef struct usb_dev_handle UsbDeviceHandle;
 
 void usbInitialise(void);
 USBStatus usbOpenDevice(uint16 vid, uint16 pid, int configuration, int iface, int alternateInterface, UsbDeviceHandle **devHandlePtr);
+USBStatus usbPrintConfiguration(UsbDeviceHandle *deviceHandle, FILE *stream);
 const char *usbStrError(void);
 
 #endif

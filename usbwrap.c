@@ -16,13 +16,8 @@
  */
 #include "usbwrap.h"
 
-static char errMsg[256];
-
-// Get the last error message, or junk if no error occurred.
-//
-const char *usbStrError(void) {
-	return errMsg;
-}
+// Defined in error.c
+extern char m_usbErrorMessage[];
 
 // Initialise USB
 //
@@ -54,7 +49,7 @@ USBStatus usbOpenDevice(uint16 vid, uint16 pid, int configuration, int interface
 			// The VID/PID was not found after scanning all buses
 			//
 			*devHandlePtr = NULL;
-			sprintf(errMsg, "Device not found");
+			sprintf(m_usbErrorMessage, "Device not found");
 			return USB_DEVICE_NOT_FOUND;
 		} else {
 			// The VID/PID was found; let's see if we can open the device
@@ -62,24 +57,24 @@ USBStatus usbOpenDevice(uint16 vid, uint16 pid, int configuration, int interface
 			deviceHandle = usb_open(thisDevice);
 			if ( deviceHandle == NULL ) {
 				*devHandlePtr = NULL;
-				sprintf(errMsg, "usb_open(): %s", usb_strerror());
+				sprintf(m_usbErrorMessage, "usb_open(): %s", usb_strerror());
 				return USB_CANNOT_OPEN_DEVICE;
 			}
 			*devHandlePtr = deviceHandle;  // Return the valid device handle anyway, even if subsequent operations fail
 			returnCode = usb_set_configuration(deviceHandle, configuration);
 			if ( returnCode < 0 ) {
-				sprintf(errMsg, "usb_set_configuration(): %s", usb_strerror());
+				sprintf(m_usbErrorMessage, "usb_set_configuration(): %s", usb_strerror());
 				return USB_CANNOT_SET_CONFIGURATION;
 			}
 			returnCode = usb_claim_interface(deviceHandle, interface);
 			if ( returnCode < 0 ) {
-				sprintf(errMsg, "usb_claim_interface(): %s", usb_strerror());
+				sprintf(m_usbErrorMessage, "usb_claim_interface(): %s", usb_strerror());
 				return USB_CANNOT_CLAIM_INTERFACE;
 			}
 			if ( alternateInterface ) {
 				returnCode = usb_set_altinterface(deviceHandle, alternateInterface);
 				if ( returnCode < 0 ) {
-					sprintf(errMsg, "usb_set_altinterface(): %s", usb_strerror());
+					sprintf(m_usbErrorMessage, "usb_set_altinterface(): %s", usb_strerror());
 					return USB_CANNOT_SET_ALTINT;
 				}
 			}
@@ -89,7 +84,8 @@ USBStatus usbOpenDevice(uint16 vid, uint16 pid, int configuration, int interface
 		// No USB buses on this system!?!?
 		//
 		*devHandlePtr = NULL;
-		sprintf(errMsg, "No USB buses found");
+		sprintf(m_usbErrorMessage, "No USB buses found");
 		return USB_NO_BUSES;
 	}
 }
+

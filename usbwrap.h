@@ -20,7 +20,6 @@
 #include "types.h"
 
 #ifdef WIN32
-	#define _CRT_SECURE_NO_WARNINGS
 	#include <string.h>
 	#define strcasecmp(x,y) _stricmp(x,y)
 #else
